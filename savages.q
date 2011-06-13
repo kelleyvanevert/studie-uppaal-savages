@@ -8,6 +8,11 @@
 /*
 
 */
+A[] Savage0.savage_continues imply servings == 0
+
+/*
+
+*/
 A[] servings >= 0
 
 /*

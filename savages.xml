@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>
-// Savages problem
-const int M = 3;  //Number of semaphores
-const int N = 2;  //Number of processes
+/*
+    The savages problem:
+    A tribe of savages eats communal dinners from a large pot that
+    can hold M servings of stewed missionary. When a savage wants to
+    eat, he helps himself from the pot, unless it is empty. If the pot is
+    empty, the savage wakes up the cook and then waits until the cook
+    has reﬁlled the pot
+*/
 
-//Names of semaphores
+// Processes
+const int numSavages = 5;
+const int cook = numSavages;
+// Number of processes
+const int N = numSavages + 1;
+
+// Semaphores
 const int mutex = 0;
 const int full = 1;
 const int empty = 2;
-
-//Names of processes
-const int cook = 0;
-const int savage = 1;
-
+// Number of semaphores
+const int M = 3;
+// Semaphore channels
 chan semWait[M][N];
 chan semSignal[M][N];
 chan semGo[M][N];
@@ -19,20 +28,11 @@ chan semGo[M][N];
 // Number of servings still in pot
 int servings = 0;
 int Mservings = 5;
-
-void putServingsInPot(int number) {}
+</declaration><template><name x="5" y="5">Savage</name><parameter>const int savage_id</parameter><declaration>
 void getServingFromPot() {}
-void eat() {}</declaration><template><name x="5" y="5">Savage</name><declaration>
-void take(){}
-
-void consume(){}</declaration><location id="id0" x="672" y="360"></location><location id="id1" x="776" y="304"></location><location id="id2" x="864" y="248"></location><location id="id3" x="296" y="136"></location><location id="id4" x="312" y="240"></location><location id="id5" x="328" y="352"></location><location id="id6" x="848" y="136"></location><location id="id7" x="720" y="32"></location><location id="id8" x="504" y="24"></location><location id="id9" x="280" y="32"></location><location id="id10" x="480" y="312"></location><init ref="id9"/><transition><source ref="id0"/><target ref="id10"/><label kind="assignment" x="536" y="304">servings = Mservings</label></transition><transition><source ref="id1"/><target ref="id0"/><label kind="synchronisation" x="728" y="336">semGo[full][savage]?</label></transition><transition><source ref="id2"/><target ref="id1"/><label kind="synchronisation" x="832" y="280">semWait[full][savage]!</label></transition><transition><source ref="id6"/><target ref="id2"/><label kind="synchronisation" x="648" y="176">semSignal[empty][savage]!</label></transition><transition><source ref="id4"/><target ref="id3"/><label kind="synchronisation" x="320" y="184">semSignal[mutex][savage]!</label></transition><transition><source ref="id5"/><target ref="id4"/><label kind="assignment" x="240" y="288">servings--</label></transition><transition><source ref="id10"/><target ref="id5"/><label kind="assignment" x="376" y="344">getServingFromPot()</label></transition><transition><source ref="id3"/><target ref="id9"/><label kind="assignment" x="240" y="80">eat()</label></transition><transition><source ref="id7"/><target ref="id10"/><label kind="guard" x="520" y="136">servings &gt; 0</label></transition><transition><source ref="id7"/><target ref="id6"/><label kind="guard" x="688" y="96">servings == 0</label></transition><transition><source ref="id8"/><target ref="id7"/><label kind="synchronisation" x="536" y="0">semGo[mutex][savage]?</label></transition><transition><source ref="id9"/><target ref="id8"/><label kind="synchronisation" x="296" y="-8">semWait[mutex][savage]!</label></transition></template><template><name x="5" y="5">Cook</name><declaration>//Insert local declarations of clocks, variables and constants.
-
-void produce(){}
-
-void append(){}
-
-
-
+void eat() {}
+</declaration><location id="id0" x="672" y="360"><name x="608" y="384">savage_continues</name></location><location id="id1" x="776" y="304"></location><location id="id2" x="864" y="248"></location><location id="id3" x="296" y="136"></location><location id="id4" x="312" y="240"></location><location id="id5" x="328" y="352"></location><location id="id6" x="848" y="136"></location><location id="id7" x="720" y="32"></location><location id="id8" x="504" y="24"></location><location id="id9" x="280" y="32"></location><location id="id10" x="480" y="312"></location><init ref="id9"/><transition><source ref="id0"/><target ref="id10"/><label kind="assignment" x="536" y="304">servings = Mservings</label></transition><transition><source ref="id1"/><target ref="id0"/><label kind="synchronisation" x="728" y="336">semGo[full][savage_id]?</label></transition><transition><source ref="id2"/><target ref="id1"/><label kind="synchronisation" x="832" y="280">semWait[full][savage_id]!</label></transition><transition><source ref="id6"/><target ref="id2"/><label kind="synchronisation" x="632" y="184">semSignal[empty][savage_id]!</label></transition><transition><source ref="id4"/><target ref="id3"/><label kind="synchronisation" x="320" y="184">semSignal[mutex][savage_id]!</label></transition><transition><source ref="id5"/><target ref="id4"/><label kind="assignment" x="240" y="288">servings--</label></transition><transition><source ref="id10"/><target ref="id5"/><label kind="assignment" x="376" y="344">getServingFromPot()</label></transition><transition><source ref="id3"/><target ref="id9"/><label kind="assignment" x="240" y="80">eat()</label></transition><transition><source ref="id7"/><target ref="id10"/><label kind="guard" x="520" y="136">servings &gt; 0</label></transition><transition><source ref="id7"/><target ref="id6"/><label kind="guard" x="688" y="96">servings == 0</label></transition><transition><source ref="id8"/><target ref="id7"/><label kind="synchronisation" x="536" y="0">semGo[mutex][savage_id]?</label></transition><transition><source ref="id9"/><target ref="id8"/><label kind="synchronisation" x="296" y="-8">semWait[mutex][savage_id]!</label></transition></template><template><name x="5" y="5">Cook</name><declaration>
+void putServingsInPot(int number) {}
 </declaration><location id="id11" x="-680" y="-336"></location><location id="id12" x="-576" y="-160"></location><location id="id13" x="-832" y="-232"></location><location id="id14" x="-560" y="-320"><name x="-544" y="-328">waken</name></location><init ref="id13"/><transition><source ref="id11"/><target ref="id14"/><label kind="synchronisation" x="-648" y="-360">semGo[empty][cook]?</label></transition><transition><source ref="id12"/><target ref="id13"/><label kind="synchronisation" x="-784" y="-152">semSignal[full][cook]!</label></transition><transition><source ref="id14"/><target ref="id12"/><label kind="assignment" x="-552" y="-248">putServingsInPot(Mservings)</label></transition><transition><source ref="id13"/><target ref="id11"/><label kind="synchronisation" x="-896" y="-320">semWait[empty][cook]!</label></transition></template><template><name>Semaphore</name><parameter>const int id,  const int queue_size, const int init_val</parameter><declaration>//The value of the semaphore
 bool value = init_val;
 //The queue of the semaphore
@@ -81,9 +81,15 @@ bool emptyQueue ( )
 }</declaration><location id="id15" x="384" y="64"><committed/></location><location id="id16" x="608" y="320"><committed/></location><location id="id17" x="352" y="96"><name x="288" y="64">overflow</name></location><location id="id18" x="480" y="192"></location><init ref="id15"/><transition><source ref="id15"/><target ref="id18"/><label kind="assignment" x="408" y="72">initialize()</label></transition><transition><source ref="id18"/><target ref="id18"/><label kind="select" x="256" y="192">p:int[0,N-1]</label><label kind="guard" x="256" y="208">emptyQueue()</label><label kind="synchronisation" x="256" y="224">semSignal[id][p]?</label><label kind="assignment" x="256" y="240">value=1</label><nail x="352" y="192"/><nail x="352" y="224"/></transition><transition><source ref="id18"/><target ref="id16"/><label kind="select" x="552" y="104">p:int[0,N-1]</label><label kind="guard" x="552" y="120">value==1</label><label kind="synchronisation" x="552" y="136">semWait[id][p]?</label><label kind="assignment" x="552" y="152">value=0,
 q=p</label><nail x="608" y="192"/></transition><transition><source ref="id18"/><target ref="id17"/><label kind="select" x="240" y="112">p:int[0,N-1]</label><label kind="guard" x="240" y="128">value==0 &amp;&amp; fullQueue()</label><label kind="synchronisation" x="240" y="144">semWait[id][p]?</label></transition><transition><source ref="id16"/><target ref="id18"/><label kind="synchronisation" x="512" y="208">semGo[id][q]!</label></transition><transition><source ref="id18"/><target ref="id16"/><label kind="select" x="360" y="280">p:int[0,N-1]</label><label kind="guard" x="360" y="296">not emptyQueue()</label><label kind="synchronisation" x="360" y="312">semSignal[id][p]?</label><label kind="assignment" x="360" y="328">q=headQueue(),
 deQueue()</label><nail x="480" y="320"/></transition><transition><source ref="id18"/><target ref="id18"/><label kind="select" x="480" y="-8">p:int[0,N-1]</label><label kind="guard" x="480" y="8">value==0 &amp;&amp; not fullQueue()</label><label kind="synchronisation" x="480" y="24">semWait[id][p]?</label><label kind="assignment" x="480" y="40">enQueue(p)</label><nail x="480" y="64"/><nail x="512" y="64"/></transition></template><system>
-SemMutex = Semaphore(mutex, 2, 1);
-SemFull  = Semaphore(full,  2, 0);
-SemEmpty = Semaphore(empty, 2, 0);
+SemMutex = Semaphore(mutex, N, 1);
+SemFull  = Semaphore(full,  N, 0);
+SemEmpty = Semaphore(empty, N, 0);
 
-system Savage, Cook, SemMutex, SemFull, SemEmpty;
+Savage0 = Savage(0);
+Savage1 = Savage(1);
+Savage2 = Savage(2);
+Savage3 = Savage(3);
+Savage4 = Savage(4);
+
+system Savage0, Savage1, Savage2, Savage3, Savage4, Cook, SemMutex, SemFull, SemEmpty;
 </system></nta>
