@@ -1,0 +1,24 @@
+
+servings = 0
+mutex = Semaphore(1)
+full = Semaphore(0)
+empty = Semaphore(0)
+
+savage:
+    while True:
+        mutex.wait()
+        if servings == 0:
+            empty.signal()
+            full.wait()
+            servings = M
+        getServingFromPot()
+        servings = servings - 1
+        mutex.signal()
+                
+        eat()
+
+cook:
+    while True:
+        empty.wait()
+        putServingsInPot(M)
+        full.signal()
