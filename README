@@ -1,0 +1,3 @@
+
+This is a homework assignment of mine, I had to model one of the synchronisation problems proposed in Allen Downey's "Little Book of Semaphores" in Uppaal, to prove it correct and deadlock-free (or find errors alternatively). I used the Savages problem.
+
