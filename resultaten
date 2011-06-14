@@ -1,0 +1,27 @@
+
+<Kelley van Evert, s4046854, IC>
+
+De modellen die ik heb gemaakt zijn niet heel ingewikkeld, en weerspiegelen gewoon de pseudocode van Allen Downey.
+
+Ik ben ook niet tegen problemen aangelopen bij het modelleren: het semaphoor model waar we ons werk op mochten baseren was vrij vanzelfsprekend, waardoor ik zonder moeite aan het echte werk kon beginnen.
+
+Ik heb kunnen vaststellen dat in modellen met tot 7 barbaren zich nooit een deadlock-situatie voordoet en dat er nooit twee barbaren tegelijkertijd in het kritische gedeelte zijn (tussen mutex.wait() en mutex.signal()).
+
+Omdat het proces van elke barbaar er hetzelfde uitziet is het verifieren dat het eerste proces niet tegelijkertijd in het kritische gedeelte is met het twee proces voldoende om te garanderen dat geen twee processen tegelijkertijd in het kritische gedeelte zijn. Daarom heb ik flink kunnen inkorten op het aantal queries. De enige queries die ik nodig heb gehad zijn:
+
+- A[] Savage.critical imply not OtherSavage.critical
+- A[] not deadlock
+
+Om de correctheid van het model zelf te verifieren heb ik echter nog een tweetal queries gebruikt:
+
+- A[] 0 <= servings and servings <= Mservings
+- A[] Cook.waken imply servings == 0
+
+..en natuurlijk gespeeld met de simulator.
+
+Ik heb geen eigenschappen kunnen verifieren voor modellen met meer dan 7 barbaren.
+
+Downey claimt dat het model deadlock-veilig is, wat ik dus heb weten te verifieren voor modellen met niet meer dan 7 barbaren. Ik heb verder geen suggesties voor Downey.
+
+Reflectie: Ik heb leren werken met Uppaal en een beter begrip gekregen van wat semaphoren zijn.
+

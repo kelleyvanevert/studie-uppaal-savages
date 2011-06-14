@@ -9,7 +9,7 @@
 */
 
 // Processes
-const int numSavages = 5;
+const int numSavages = 7;
 const int cook = numSavages;
 // Number of processes
 const int N = numSavages + 1;
@@ -31,7 +31,7 @@ int Mservings = 5;
 </declaration><template><name x="5" y="5">ASavage</name><parameter>const int savage_id</parameter><declaration>
 void getServingFromPot() {}
 void eat() {}
-</declaration><location id="id0" x="632" y="200"></location><location id="id1" x="736" y="96"></location><location id="id2" x="776" y="16"></location><location id="id3" x="288" y="120"></location><location id="id4" x="296" y="208"></location><location id="id5" x="304" y="304"><name x="240" y="296">critical</name></location><location id="id6" x="800" y="-72"></location><location id="id7" x="576" y="-72"><name x="552" y="-104">startcritical</name></location><location id="id8" x="424" y="-16"></location><location id="id9" x="280" y="32"></location><location id="id10" x="504" y="304"></location><init ref="id9"/><transition><source ref="id0"/><target ref="id10"/><label kind="assignment" x="584" y="248">servings = Mservings</label></transition><transition><source ref="id1"/><target ref="id0"/><label kind="synchronisation" x="696" y="144">semGo[full][savage_id]?</label></transition><transition><source ref="id2"/><target ref="id1"/><label kind="synchronisation" x="776" y="48">semWait[full][savage_id]!</label></transition><transition><source ref="id6"/><target ref="id2"/><label kind="synchronisation" x="808" y="-32">semSignal[empty][savage_id]!</label></transition><transition><source ref="id4"/><target ref="id3"/><label kind="synchronisation" x="304" y="152">semSignal[mutex][savage_id]!</label></transition><transition><source ref="id5"/><target ref="id4"/><label kind="assignment" x="312" y="248">servings--</label></transition><transition><source ref="id10"/><target ref="id5"/><label kind="assignment" x="336" y="320">getServingFromPot()</label></transition><transition><source ref="id3"/><target ref="id9"/><label kind="assignment" x="296" y="64">eat()</label></transition><transition><source ref="id7"/><target ref="id10"/><label kind="guard" x="448" y="64">servings &gt; 0</label></transition><transition><source ref="id7"/><target ref="id6"/><label kind="guard" x="616" y="-56">servings == 0</label></transition><transition><source ref="id8"/><target ref="id7"/><label kind="synchronisation" x="304" y="-64">semGo[mutex][savage_id]?</label></transition><transition><source ref="id9"/><target ref="id8"/><label kind="synchronisation" x="152" y="-16">semWait[mutex][savage_id]!</label></transition></template><template><name x="5" y="5">Cook</name><declaration>
+</declaration><location id="id0" x="632" y="200"></location><location id="id1" x="736" y="96"></location><location id="id2" x="776" y="16"></location><location id="id3" x="288" y="120"></location><location id="id4" x="296" y="208"></location><location id="id5" x="304" y="304"></location><location id="id6" x="800" y="-72"></location><location id="id7" x="576" y="-72"><name x="552" y="-104">critical</name></location><location id="id8" x="424" y="-16"></location><location id="id9" x="280" y="32"></location><location id="id10" x="504" y="304"></location><init ref="id9"/><transition><source ref="id0"/><target ref="id10"/><label kind="assignment" x="584" y="248">servings = Mservings</label></transition><transition><source ref="id1"/><target ref="id0"/><label kind="synchronisation" x="696" y="144">semGo[full][savage_id]?</label></transition><transition><source ref="id2"/><target ref="id1"/><label kind="synchronisation" x="776" y="48">semWait[full][savage_id]!</label></transition><transition><source ref="id6"/><target ref="id2"/><label kind="synchronisation" x="808" y="-32">semSignal[empty][savage_id]!</label></transition><transition><source ref="id4"/><target ref="id3"/><label kind="synchronisation" x="304" y="152">semSignal[mutex][savage_id]!</label></transition><transition><source ref="id5"/><target ref="id4"/><label kind="assignment" x="312" y="248">servings--</label></transition><transition><source ref="id10"/><target ref="id5"/><label kind="assignment" x="336" y="320">getServingFromPot()</label></transition><transition><source ref="id3"/><target ref="id9"/><label kind="assignment" x="296" y="64">eat()</label></transition><transition><source ref="id7"/><target ref="id10"/><label kind="guard" x="448" y="64">servings &gt; 0</label></transition><transition><source ref="id7"/><target ref="id6"/><label kind="guard" x="616" y="-56">servings == 0</label></transition><transition><source ref="id8"/><target ref="id7"/><label kind="synchronisation" x="304" y="-64">semGo[mutex][savage_id]?</label></transition><transition><source ref="id9"/><target ref="id8"/><label kind="synchronisation" x="152" y="-16">semWait[mutex][savage_id]!</label></transition></template><template><name x="5" y="5">Cook</name><declaration>
 void putServingsInPot(int number) {}
 </declaration><location id="id11" x="-680" y="-336"></location><location id="id12" x="-576" y="-160"></location><location id="id13" x="-832" y="-232"></location><location id="id14" x="-560" y="-320"><name x="-544" y="-328">waken</name></location><init ref="id13"/><transition><source ref="id11"/><target ref="id14"/><label kind="synchronisation" x="-648" y="-360">semGo[empty][cook]?</label></transition><transition><source ref="id12"/><target ref="id13"/><label kind="synchronisation" x="-784" y="-152">semSignal[full][cook]!</label></transition><transition><source ref="id14"/><target ref="id12"/><label kind="assignment" x="-552" y="-248">putServingsInPot(Mservings)</label></transition><transition><source ref="id13"/><target ref="id11"/><label kind="synchronisation" x="-896" y="-320">semWait[empty][cook]!</label></transition></template><template><name>Semaphore</name><parameter>const int id,  const int queue_size, const int init_val</parameter><declaration>//The value of the semaphore
 bool value = init_val;
@@ -89,9 +89,12 @@ SemEmpty = Semaphore(empty, N, 0);
 // (Example: A[] Savage.critical imply not OtherSavage.critical)
 Savage = ASavage(0);
 OtherSavage = ASavage(1);
-Savage2 = ASavage(2);
-Savage3 = ASavage(3);
-Savage4 = ASavage(4);
+Savage3 = ASavage(2);
+Savage4 = ASavage(3);
+Savage5 = ASavage(4);
+Savage6 = ASavage(5);
+Savage7 = ASavage(6);
 
-system Savage, OtherSavage, Savage2, Savage3, Savage4, Cook, SemMutex, SemFull, SemEmpty;
+system Savage, OtherSavage, Cook, SemMutex, SemFull, SemEmpty,
+	Savage3, Savage4, Savage5, Savage6, Savage7;
 </system></nta>

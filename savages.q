@@ -8,22 +8,12 @@
 /*
 
 */
-A[] Savage.startcritical imply not OtherSavage.startcritical
-
-/*
-
-*/
 A[] Savage.critical imply not OtherSavage.critical
 
 /*
 
 */
-A[] servings <= Mservings
-
-/*
-
-*/
-A[] servings >= 0
+A[] 0 <= servings and servings <= Mservings
 
 /*
 
